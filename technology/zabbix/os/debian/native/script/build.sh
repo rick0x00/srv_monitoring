@@ -84,15 +84,15 @@ function install_database () {
 
 function create_initial_database () {
     #mysql -uroot -p
-    mysql -e "SET PASSWORD FOR 'root'@localhost = PASSWORD('$root_db_pass');"
-    mysql -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '$root_db_pass';"
-    mysql -uroot -p"$root_db_pass" -e "create database zabbix character set utf8mb4 collate utf8mb4_bin;"
-    mysql -uroot -p"$root_db_pass" -e "create user zabbix@localhost identified by '$zbx_db_pass';"
-    mysql -uroot -p"$root_db_pass" -e "grant all privileges on zabbix.* to zabbix@localhost;"
-    mysql -uroot -p"$root_db_pass" -e "FLUSH PRIVILEGES;"
+    mysql -e "SET PASSWORD FOR '$root_db_user'@localhost = PASSWORD('$root_db_pass');"
+    mysql -e "ALTER USER '$root_db_user'@'localhost' IDENTIFIED BY '$root_db_pass';"
+    mysql -h $zbx_db_host -u"$root_db_user" -p"$root_db_pass" -e "create user ${zbx_db_user}@localhost identified by '$zbx_db_pass';"
+    mysql -h $zbx_db_host -u"$root_db_user" -p"$root_db_pass" -e "create database $zbx_db_name character set utf8mb4 collate utf8mb4_bin;"
+    mysql -h $zbx_db_host -u"$root_db_user" -p"$root_db_pass" -e "grant all privileges on $zbx_db_name.* to ${zbx_db_user}@localhost;"
+    mysql -h $zbx_db_host -u"$root_db_user" -p"$root_db_pass" -e "FLUSH PRIVILEGES;"
 
     # initial populate the database
-    zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql --default-character-set=utf8mb4 -uzabbix -p"$zbx_db_pass" zabbix
+    zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql -h $zbx_db_host --default-character-set=utf8mb4 -uzabbix -p"$zbx_db_pass" zabbix
 }
 
 function configure_apache_default_page () {
