@@ -132,10 +132,15 @@ function configure_apache () {
     configure_apache_server_banner;
 }
 
+function configure_locale () {
+    localectl set-locale en_US.UTF-8
+}
+
 function configure_server () {
     create_initial_database;
     configure_zbx_server;
     configure_apache;
+    configure_locale;
 }
 
 function start_server () {
