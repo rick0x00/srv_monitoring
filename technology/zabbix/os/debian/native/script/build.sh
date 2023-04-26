@@ -142,6 +142,15 @@ function start_server () {
     systemctl enable --now zabbix-server
     systemctl enable --now zabbix-agent
     systemctl enable --now mariadb
+    systemctl enable --now apache2
+    systemctl restart zabbix-server
+    systemctl restart zabbix-agent
+    systemctl restart mariadb
+    systemctl restart apache2
+    systemctl status --no-pager -l zabbix-server
+    systemctl status --no-pager -l zabbix-agent
+    systemctl status --no-pager -l mariadb
+    systemctl status --no-pager -l apache2
 }
 # end main functions
 # ============================== #
