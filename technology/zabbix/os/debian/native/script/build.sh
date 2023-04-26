@@ -54,22 +54,20 @@ expose_ports="${port[0]}/tcp ${port[1]}/udp"
 function pre_install_zbx () {
     wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_6.0-4+debian11_all.deb -O zabbix-repo.deb
     dpkg -i zabbix-repo.deb
+    apt update
 }
 
 function install_zbx_server () {
-	apt update
     apt install -y zabbix-sql-scripts
     apt install -y zabbix-server-mysql # mysql
 }
 
 function install_zbx_frontend () {
-	apt update
     apt install -y zabbix-frontend-php 
     apt install -y zabbix-apache-conf # apache
 }
 
 function install_zbx_agent () {
-	apt update
     apt install -y zabbix-agent
 }
 
