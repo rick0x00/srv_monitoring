@@ -103,6 +103,13 @@ function create_initial_database () {
     zcat /usr/share/zabbix-sql-scripts/mysql/server.sql.gz | mysql -h $zbx_db_host --default-character-set=utf8mb4 -uzabbix -p"$zbx_db_pass" zabbix
 }
 
+function configure_zbx_server () {
+    cp /etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf.bkp
+    mv /etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf.new    
+    sed -i "s/# DBPassword=/DBPassword=$zbx_db_pass/" /etc/zabbix/zabbix_server.conf.new
+    mv /etc/zabbix/zabbix_server.conf.new /etc/zabbix/zabbix_server.conf
+}
+
 function configure_apache_default_page () {
     cp /etc/apache2/sites-available/000-default.conf /etc/apache2/sites-available/000-default.conf.bkp_$(date +%s)
     sed -i "/DocumentRoot/s/var\/www\/html/usr\/share\/zabbix/" /etc/apache2/sites-available/000-default.conf
@@ -125,17 +132,10 @@ function configure_apache () {
     configure_apache_server_banner;
 }
 
-function configure_zbx_server () {
-    cp /etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf.bkp
-    mv /etc/zabbix/zabbix_server.conf /etc/zabbix/zabbix_server.conf.new    
-    sed -i "s/# DBPassword=/DBPassword=$zbx_db_pass/" /etc/zabbix/zabbix_server.conf.new
-    mv /etc/zabbix/zabbix_server.conf.new /etc/zabbix/zabbix_server.conf
-}
-
 function configure_server () {
     create_initial_database;
-    configure_apache;
     configure_zbx_server;
+    configure_apache;
 }
 
 function start_server () {
