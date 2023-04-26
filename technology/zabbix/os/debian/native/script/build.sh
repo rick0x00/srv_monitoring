@@ -78,8 +78,7 @@ function install_webserver () {
 }
 
 function install_database () {
-    #apt install -y mariadb-client mariadb-server # mariadb
-    apt install -y mysql-client mysql-server mycli # mysql
+    apt install -y mariadb-client mariadb-server # mariadb
 }
 
 function install_server () {
