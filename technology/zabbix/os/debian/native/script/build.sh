@@ -51,24 +51,24 @@ expose_ports="${port[0]}/tcp ${port[1]}/udp"
 # end complement functions
 # ============================== #
 # start main functions
-function pre_install () {
+function pre_install_zbx () {
     wget https://repo.zabbix.com/zabbix/6.0/debian/pool/main/z/zabbix-release/zabbix-release_6.0-4+debian11_all.deb -O zabbix-repo.deb
     dpkg -i zabbix-repo.deb
 }
 
-function install_server () {
+function install_zbx_server () {
 	apt update
     apt install -y zabbix-sql-scripts
     apt install -y zabbix-server-mysql # mysql
 }
 
-function install_frontend () {
+function install_zbx_frontend () {
 	apt update
     apt install -y zabbix-frontend-php 
     apt install -y zabbix-apache-conf # apache
 }
 
-function install_agent () {
+function install_zbx_agent () {
 	apt update
     apt install -y zabbix-agent
 }
@@ -80,6 +80,15 @@ function install_webserver () {
 function install_database () {
     #apt install -y mariadb-client mariadb-server # mariadb
     apt install -y mysql-client mysql-server mycli # mysql
+}
+
+function install_server () {
+    pre_install_zbx
+    install_zbx_server
+    install_zbx_frontend
+    install_zbx_agent
+    install_webserver
+    install_database
 }
 
 function create_initial_database () {
