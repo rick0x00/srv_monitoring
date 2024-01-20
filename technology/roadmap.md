@@ -1,7 +1,9 @@
 # Roadmap for Monitoring technologies
 
 - [x] zabbix
-- [ ] grafana
+- [x] grafana
 - [ ] datadog
 - [ ] nagios
 - [ ] prometheus
+- [ ] graylog
+- [ ] netflow
