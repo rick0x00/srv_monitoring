@@ -6,4 +6,7 @@
 - [ ] nagios
 - [x] prometheus
 - [ ] graylog
-- [ ] netflow
+- [ ] netflow(ELK,ElasticSearch)
+- [ ] netflow(ElastiFlow)
+- [ ] netflow(NtopNG)
+- [ ] netflow(nfdump + nfsen + influxdb)
