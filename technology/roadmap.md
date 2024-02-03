@@ -4,6 +4,6 @@
 - [x] grafana
 - [ ] datadog
 - [ ] nagios
-- [ ] prometheus
+- [x] prometheus
 - [ ] graylog
 - [ ] netflow
